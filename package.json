@@ -1,0 +1,20 @@
+{
+  "name": "express-rest-api",
+  "version": "1.0.0",
+  "description": "School exercise, rest api for music application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evvieevee/Express-Rest-Api.git"
+  },
+  "author": "Eve",
+  "license": "ISC",
+  "homepage": "https://github.com/evvieevee/Express-Rest-Api#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.4"
+  }
+}
