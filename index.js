@@ -3,43 +3,23 @@ const app = express()
 const port = 3000
 
 const mongoose = require('mongoose');
+const artistRoutes = require('./artist');
+const bodyParser = require('body-parser');
+require('dotenv').config();
 
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb+srv://evepuurtinen00:koalakarhu1@cluster0.t14h9zc.mongodb.net/?retryWrites=true&w=majority')
+  await mongoose.connect('mongodb+srv://'+ process.env.MONGO_USERNAME + ':'+ process.env.MONGO_PASSWORD +'@cluster0.fddad9u.mongodb.net/?retryWrites=true&w=majority')
   .then(async () => {
     console.log("atlas ready");
-
-
-    const albumSchema = new mongoose.Schema({
-      name: String
-    });
-
-    const artistSchema = new mongoose.Schema({
-      name: String,
-      albums: {
-        type: [albumSchema],
-        default: []
-      }
-    });
-    
-    const Artist = mongoose.model('Artist', artistSchema);
-    
-    const artist = new Artist({ name: 'Silence' });
-
-    await artist.save();
-
-    const Album = mongoose.model('Album', albumSchema);
-    const album = new Album({ name: 'Songs List' });
-    await album.save()
-    artist.albums.push(album);
-    await artist.updateOne()
-
   }).catch((e) => console.log(e))
 
-  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+ 
 }
+
+app.use(bodyParser.json());
+app.use('/api', artistRoutes)
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
