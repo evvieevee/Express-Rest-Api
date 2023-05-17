@@ -26,10 +26,12 @@ router.get('/getall', async (req, res) => {
   res.send(list)
 })
 // Hakee artistin id:n avulla.
-router.get('/:id', async (req, res) => {
+router.get('/:id', (req, res) => {
+  
   const id = req.params.id;
-  const list = await Artist.findById(id);
-  res.send(list)
+  Artist.findById(id)
+  .then((y) => res.send(y)
+  ).catch(x => res.status(404).send('Sorry, cant find that'))
 })
 // post- funktio, jossa pyritään lisäämään uusi artisti ja tarkitsetaan virheiden varalta ettei nimi ole tyhjä.
 //jos miltään puuttuu nimi server lähettää koodin 500 ja kertoo mitkä puuttuu. 

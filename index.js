@@ -1,13 +1,15 @@
 //Portti 3000 avattu
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 3002
 // ladataan mongoose paketti, ladataan artist.js tiedosto, 
 // ladataan bodyparser paketti ja dotenv paketti. 
 const mongoose = require('mongoose');
 const artistRoutes = require('./artist');
 const bodyParser = require('body-parser');
+const cors = require('cors')
 require('dotenv').config();
+
 
 main().catch(err => console.log(err));
 // yhdistetään mongodb tietokantaan. Odotetaan await funktion avulla, että yhdistytään, ennenkuin jatketaan koodissa eteenpäin.
@@ -17,12 +19,15 @@ async function main() {
   await mongoose.connect('mongodb+srv://'+ process.env.MONGO_USERNAME + ':'+ process.env.MONGO_PASSWORD +'@cluster0.fddad9u.mongodb.net/?retryWrites=true&w=majority')
   .then(async () => {
     console.log("atlas ready");
-  }).catch((e) => console.log(e))
+  }).catch((e) => 
+  console.log("here")//console.log(e)
+  )
 
  
 }
 // Muutetaan tiedot json- muotoon ja ohjataan /api polut.
 app.use(bodyParser.json());
+app.use(cors())
 app.use('/api', artistRoutes)
 // Lähettää vastauksen "hello world", kun polulle saavutaan.
 app.get('/', (req, res) => {
