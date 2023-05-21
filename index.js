@@ -1,6 +1,7 @@
 //Portti 3000 avattu
 const express = require('express')
 const app = express()
+const path = require('path')
 const port = 3002
 // ladataan mongoose paketti, ladataan artist.js tiedosto, 
 // ladataan bodyparser paketti ja dotenv paketti. 
@@ -10,7 +11,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 require('dotenv').config();
 
-
+app.use(express.static(path.join(__dirname, "public")))
 main().catch(err => console.log(err));
 // yhdistetään mongodb tietokantaan. Odotetaan await funktion avulla, että yhdistytään, ennenkuin jatketaan koodissa eteenpäin.
 // Yhdistetään .env tiedostossa olevilla tunnuksilla tietokantaan. 
@@ -30,9 +31,10 @@ app.use(bodyParser.json());
 app.use(cors())
 app.use('/api', artistRoutes)
 // Lähettää vastauksen "hello world", kun polulle saavutaan.
-app.get('/', (req, res) => {
+app.use('/', express.static('public'))
+/*app.get('/', (req, res) => {
   res.send('Hello World!')
-})
+})*/
  // Kuuntelee porttia ja console log, joka ilmoittaa portin jota aplikaatio kuuntelee. 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
